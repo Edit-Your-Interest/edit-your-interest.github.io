@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Edit-Your-Interest: efficient, zero-shot text-guided video editing with Spatio-Temporal Feature Memory and Feature Most-Similar Propagation.">
+  <meta name="theme-color" content="#f8f9f6">
+  <meta property="og:title" content="Edit-Your-Interest">
+  <meta property="og:description" content="Efficient Video Editing via Feature Most-Similar Propagation">
+  <meta property="og:type" content="website">
+  <title>Edit-Your-Interest · Video Editing</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="results.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="wordmark" href="#main" aria-label="Edit-Your-Interest home"><span class="brand-mark" aria-hidden="true">e<span>yi</span></span><span>EDIT-YOUR-INTEREST</span></a>
+      <div class="nav-links">
+        <a href="#demo">Demo</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="https://arxiv.org/abs/2510.13084" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero container" aria-labelledby="project-title">
+      <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Zero-shot · Text-guided video editing</p>
+      <h1 id="project-title">Edit-Your-<span>Interest</span></h1>
+      <p class="hero-subtitle">Efficient Video Editing via<br class="desktop-break"> Feature Most-Similar Propagation</p>
+      <p class="authors"><a href="mailto:yiiizuo@163.com">Yi Zuo</a><span>Zitao Wang</span><a href="mailto:llli@xidian.edu.cn">Lingling Li<sup>*</sup></a><span>Xu Liu</span><span>Fang Liu</span><span>Licheng Jiao</span></p>
+      <p class="affiliation">School of Artificial Intelligence, Xidian University</p>
+      <p class="lab">Key Laboratory of Intelligent Perception and Image Understanding of Ministry of Education</p>
+      <p class="correspondence">* Corresponding authors</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://arxiv.org/abs/2510.13084" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5"/></svg>Read the paper <span aria-hidden="true">↗</span></a>
+        <a class="button button-secondary" href="#demo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 11 7-11 7z"/></svg>Watch the demo</a>
+        <a class="button button-secondary" href="https://github.com/yiiizuo/Edit-Your-Interest" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16"/></svg>Code <span aria-hidden="true">↗</span></a>
+      </div>
+      <p class="hero-intro">Edit the objects you care about.<br>Preserve the motion and the world around them.</p>
+    </section>
+
+    <section id="demo" class="demo-section container" aria-labelledby="demo-title">
+      <div class="section-topline"><h2 id="demo-title">See it in motion</h2><span class="small-label">01 / DEMONSTRATION</span></div>
+      <div class="demo-frame">
+        <video id="main-demo" controls playsinline preload="none" poster="assets/posters/demo.jpg" aria-label="Edit-Your-Interest main demonstration">
+          <source src="demos/demo.mp4" type="video/mp4">
+          Your browser does not support embedded video. <a href="demos/demo.mp4">Download the demonstration.</a>
+        </video>
+      </div>
+      <div class="demo-caption"><p>Text-driven edits. Consistent across frames.</p><a href="demos/demo.mp4" download>Download video <span aria-hidden="true">↓</span></a></div>
+    </section>
+
+    <section id="abstract" class="abstract-section container" aria-labelledby="abstract-title">
+      <div><p class="eyebrow">The idea</p><h2 id="abstract-title">Less memory.<br> More consistency.</h2></div>
+      <div class="abstract-copy">
+        <p>Video editing with text-to-image diffusion models often comes with high computational and memory costs, while feature smoothing can introduce blurring and temporal artifacts. <strong>Edit-Your-Interest</strong> is a lightweight, text-driven, zero-shot method designed to balance efficiency and visual fidelity.</p>
+        <p>A <strong>Spatio-Temporal Feature Memory bank (SFM)</strong> caches representative spatial-attention features under a fixed memory budget. <strong>Feature Most-Similar Propagation (FMP)</strong> retrieves relevant cached tokens for the current frame, while a feature-diversity-based update keeps the memory representative. Automatically extracted cross-attention masks support precise object edits and preserve the surrounding background.</p>
+      </div>
+    </section>
+
+    <section id="method" class="method-section" aria-labelledby="method-title">
+      <div class="container">
+        <div class="section-heading"><div><p class="eyebrow">02 / Method</p><h2 id="method-title">A memory that follows the video.</h2></div><p>Cache representative features. Retrieve what matters.<br>Keep the edit focused.</p></div>
+        <figure class="pipeline-figure">
+          <a href="demos/Piplines.png" target="_blank" rel="noopener" aria-label="Open the full-resolution framework figure"><img src="demos/Piplines.png" width="5068" height="3395" loading="lazy" decoding="async" alt="Edit-Your-Interest pipeline: DDIM inversion and sampling, feature memory with most-similar propagation, and automatic mask extraction and injection for instance-level editing."></a>
+          <figcaption><span>Framework overview</span><a href="demos/Piplines.png" target="_blank" rel="noopener">View full resolution <span aria-hidden="true">↗</span></a></figcaption>
+        </figure>
+        <div class="method-details">
+          <article><span class="step-number">01</span><h3>Remember efficiently</h3><p>SFM stores a representative pool of feature tokens under a fixed memory budget. Diversity-based updates keep the pool useful as the video progresses.</p></article>
+          <article><span class="step-number">02</span><h3>Propagate by similarity</h3><p>FMP retrieves the most similar cached features for the current frame, improving temporal consistency without full-sequence temporal attention.</p></article>
+          <article><span class="step-number">03</span><h3>Edit your instance</h3><p>Cross-attention maps automatically provide object masks. Injecting these masks during denoising helps preserve the background and suppress boundary artifacts.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="results-section container" aria-labelledby="results-title">
+      <div class="section-heading"><div><p class="eyebrow">03 / Results</p><h2 id="results-title">Same scene. New possibilities.</h2></div><p>Explore the original and edited videos side by side.<br>Use “Play pair” to compare them together.</p></div>
+      <div id="results-grid" class="results-grid"></div>
+      <noscript><p>Enable JavaScript to view the paired comparisons, or open the original files below.</p><ul><li><a href="demos/more_results/1/raw.mp4">Case 01 original</a> · <a href="demos/more_results/1/edit.mp4">edited</a></li><li><a href="demos/more_results/2/raw.mp4">Case 02 original</a> · <a href="demos/more_results/2/edit.mp4">edited</a></li><li><a href="demos/more_results/3/raw.mp4">Case 03 original</a> · <a href="demos/more_results/3/edit.mp4">edited</a></li><li><a href="demos/more_results/4/raw.mp4">Case 04 original</a> · <a href="demos/more_results/4/edit.mp4">edited</a></li><li><a href="demos/more_results/5/raw.mp4">Case 05 original</a> · <a href="demos/more_results/5/edit.mp4">edited</a></li><li><a href="demos/more_results/6/raw.mp4">Case 06 original</a> · <a href="demos/more_results/6/edit.mp4">edited</a></li></ul></noscript>
+    </section>
+
+    <section id="citation" class="citation-section container" aria-labelledby="citation-title">
+      <div class="section-topline"><div><p class="eyebrow">04 / Citation</p><h2 id="citation-title">BibTeX</h2></div><button id="copy-citation" class="button button-secondary" type="button">Copy citation</button></div>
+      <pre><code id="bibtex">@article{zuo2025edit,
+  title={Edit-your-interest: Efficient video editing via feature most-similar propagation},
+  author={Zuo, Yi and Wang, Zitao and Li, Lingling and Liu, Xu and Liu, Fang and Jiao, Licheng},
+  journal={arXiv preprint arXiv:2510.13084},
+  year={2025}
+}</code></pre>
+      <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer container"><a class="footer-title" href="#main">Edit-Your-Interest</a><p>Efficient video editing, guided by your interest.</p><a href="https://arxiv.org/abs/2510.13084" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a></footer>
+</body>
+</html>
