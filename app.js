@@ -4,6 +4,34 @@
   const grid = document.getElementById("results-grid");
   const controllers = [];
 
+  function renderPrompt(element, text) {
+    element.textContent = text || "Your editing prompt here.";
+    element.classList.toggle("is-placeholder", !text);
+    if (!text) return;
+
+    const sides = text.split("→");
+    if (sides.length !== 2) return;
+    const [source, edited] = sides.map(side => side.trim().match(/\S+|\s+/g) || []);
+    let prefix = 0;
+    while (prefix < Math.min(source.length, edited.length) && source[prefix] === edited[prefix]) prefix += 1;
+    let suffix = 0;
+    while (suffix < Math.min(source.length, edited.length) - prefix && source[source.length - suffix - 1] === edited[edited.length - suffix - 1]) suffix += 1;
+
+    element.textContent = "";
+    [source, edited].forEach((tokens, index) => {
+      if (index) element.append(document.createTextNode(" → "));
+      element.append(document.createTextNode(tokens.slice(0, prefix).join("")));
+      const changed = tokens.slice(prefix, tokens.length - suffix).join("");
+      if (changed) {
+        const highlight = document.createElement("span");
+        highlight.className = index ? "prompt-edited" : "prompt-original";
+        highlight.textContent = changed;
+        element.append(highlight);
+      }
+      element.append(document.createTextNode(tokens.slice(tokens.length - suffix).join("")));
+    });
+  }
+
   for (const result of window.EDIT_RESULTS || []) {
     const card = document.createElement("article");
     card.className = "result-card";
@@ -18,8 +46,8 @@
       <p class="pair-status" role="status" aria-live="polite"></p>`;
     card.querySelector(".case-id").textContent = `CASE ${result.id}`;
     const prompt = card.querySelector(".prompt-text");
-    prompt.textContent = result.prompt || "Your editing prompt here.";
-    prompt.classList.toggle("is-placeholder", !result.prompt);
+    renderPrompt(prompt, result.prompt);
+    prompt.classList.toggle("prompt-original", result.promptColor === "orange");
     const videos = [...card.querySelectorAll("video")];
     videos.forEach((video, index) => {
       video.src = index ? result.edited : result.original;

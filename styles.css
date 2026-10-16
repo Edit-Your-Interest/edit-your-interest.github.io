@@ -82,6 +82,8 @@ h3 { font-size: 17px; font-weight: 600; margin: 9px 0 10px; letter-spacing: -.3p
 .prompt-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); display: block; margin-bottom: 5px; }
 .prompt-text { font-size: 15px; line-height: 1.5; min-height: 45px; margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
 .prompt-text.is-placeholder { color: #939c95; font-style: italic; }
+.prompt-original { color: #b45309; font-weight: 600; }
+.prompt-edited { color: #c62828; font-weight: 600; }
 .video-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 0 12px; }
 .video-pair figure { margin: 0; min-width: 0; }
 .video-pair video { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; background: #17231d; border-radius: 5px; }

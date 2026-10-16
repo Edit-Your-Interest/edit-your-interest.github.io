@@ -22,6 +22,8 @@ python3 -m http.server 8000
 
 每个 prompt 显示在对应的原视频/编辑视频对上方。空字符串显示预留文字 `Your editing prompt here.`。这是源码配置，修改、保存并刷新后生效；页面不会将输入保存到服务器。
 
+使用 `原 prompt → 编辑后的 prompt` 格式时，页面会自动比较两侧词语：原词显示为橘色，修改后的词显示为红色，共同的开头和结尾保持普通文字。例如 `a white flamingo → a red flamingo` 会将 `white` 标橘色、`red` 标红色。没有箭头的 prompt 按普通文字显示。
+
 新增视频对时，在 `results.js` 复制一项并修改 `id`、`prompt`、视频路径和封面路径。同一原视频的多个编辑结果也可以各添加一项。
 
 ## 文件位置
@@ -38,7 +40,7 @@ python3 -m http.server 8000
 
 “Play pair” 同时播放、同步并循环该组视频；“Restart” 从头播放。每个视频也有独立的原生播放控件。Case 02 的原视频为 5 秒，编辑视频为 3.2 秒，因此成对播放会按较短视频的 3.2 秒循环；独立播放可查看完整原视频。切换到其他 case、离开当前视频组或隐藏页面时，会暂停播放。
 
-主页的 Code 按钮指向 https://github.com/yiiizuo/Edit-Your-Interest。BibTeX 使用提供的 2025 年 arXiv 预印本引用，引用键为 `zuo2025edit`；需要更新时请编辑 `index.html`。
+主页的 arxiv 按钮指向 https://arxiv.org/abs/2510.13084，Pattern Recognition 按钮指向 https://www.sciencedirect.com/science/article/pii/S0031320326020777，Code 按钮指向 https://github.com/yiiizuo/Edit-Your-Interest。BibTeX 仅保留提供的 Pattern Recognition 期刊 `@article` 引用，引用键为 `ZUO2027115113`，年份为 2027；需要更新时请编辑 `index.html`。
 
 ## GitHub Pages
 
